@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
+import { AuthGuard } from './guards/authorization.guard';
 
 export const routes: Routes = [
   {
@@ -7,7 +9,8 @@ export const routes: Routes = [
   },
   {
     path: 'thankyou',
-    loadChildren: () => import('./features/thank-you/thank-you-routes').then((x) => x.ThankYouRoutes)
+    loadChildren: () => import('./features/thank-you/thank-you-routes').then((x) => x.ThankYouRoutes),
+    canActivate: [() => inject(AuthGuard).canActivate()]
   },
   { path: '', redirectTo: '/enter', pathMatch: 'full' }
 ];

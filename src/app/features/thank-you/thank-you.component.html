@@ -1,0 +1,22 @@
+<div class="form">
+  <div>
+    <span>Name:</span>
+    {{formData?.name}}
+  </div>
+  <div *ngIf="formData?.userName">
+    <span>Username:</span>
+    {{formData?.userName}}
+  </div>
+  <div>
+    <span>Country:</span>
+    {{formData?.country}}
+  </div>
+  <div *ngIf="formData?.postCode">
+    <span>Post code:</span>
+    {{formData?.postCode}}
+  </div>
+  <div>
+    <span>Favourite movie:</span>
+    {{formData?.favouriteMovie}}
+  </div>
+</div>

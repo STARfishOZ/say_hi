@@ -1,0 +1,61 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput
+           type="text"
+           formControlName="name">
+    <mat-error *ngIf="form.controls.name.hasError('required')">Field is required</mat-error>
+    <mat-error *ngIf="form.controls.name.hasError('pattern')">Field should be string only</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Username</mat-label>
+    <input matInput
+           type="text"
+           formControlName="userName">
+    <mat-error *ngIf="form.controls.userName.hasError('email')">Email is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Country</mat-label>
+    <mat-select formControlName="country">
+      <mat-option [value]="'United Kingdom'">
+        United Kingdom
+      </mat-option>
+      <mat-option [value]="'Ireland'">
+        Ireland
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.controls.country.hasError('required')">Country is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Post code</mat-label>
+    <input matInput
+           type="text"
+           formControlName="postCode">
+    <mat-error *ngIf="form.controls.postCode.hasError('required')">Post code is required</mat-error>
+    <mat-error *ngIf="form.controls.postCode.hasError('pattern')">Post code of United Kingdom required</mat-error>
+    <mat-error *ngIf="form.controls.postCode.hasError('minlength')">Min length is 6</mat-error>
+    <mat-error *ngIf="form.controls.postCode.hasError('maxlength')">Max length is 10</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Favourite Movie</mat-label>
+    <input type="text"
+           placeholder="Pick one"
+           matInput
+           formControlName="favouriteMovie"
+           [matAutocomplete]="auto"
+           (keyup)="onMovieChange($event)">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of movies$ | async"
+                  [value]="option.title">
+        {{option.title}}
+      </mat-option>
+    </mat-autocomplete>
+    <mat-error *ngIf="form.controls.favouriteMovie.hasError('minlength')">Min length is 3</mat-error>
+  </mat-form-field>
+
+  <button type="submit" mat-raised-button color="primary">Submit</button>
+</form>
