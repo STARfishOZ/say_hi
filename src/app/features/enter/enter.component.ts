@@ -59,28 +59,6 @@ export class EnterComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private createFormSubscription(): void {
-    this.form.controls.country.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        filter(() => this.form.controls.country.valid),
-        tap((country: Country) => this.setPostCodeValidator(country)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe()
-
-    this.movies$ = this.form.controls.favouriteMovie.valueChanges
-      .pipe(
-        debounceTime(this.moveTypingDelay),
-        distinctUntilChanged(),
-        filter(() => this.form.controls.favouriteMovie.valid),
-        switchMap((value) => {
-          console.log('hello');
-          return this.enterService.getMovies(value as string)
-        }),
-      )
-  }
-
   onMovieChange(event: Event): void {
     this.form.controls.favouriteMovie.setValue((event.target as HTMLTextAreaElement).value);
   }
@@ -100,5 +78,24 @@ export class EnterComponent implements OnInit, OnDestroy {
     } else {
       this.form.controls.postCode.setValidators([Validators.minLength(6), Validators.maxLength(10)]);
     }
+  }
+
+  private createFormSubscription(): void {
+    this.form.controls.country.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        filter(() => this.form.controls.country.valid),
+        tap((country: Country) => this.setPostCodeValidator(country)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe()
+
+    this.movies$ = this.form.controls.favouriteMovie.valueChanges
+      .pipe(
+        debounceTime(this.moveTypingDelay),
+        distinctUntilChanged(),
+        filter(() => this.form.controls.favouriteMovie.valid),
+        switchMap((value) => this.enterService.getMovies(value as string)),
+      )
   }
 }
