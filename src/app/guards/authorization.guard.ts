@@ -10,7 +10,7 @@ export class AuthGuard {
   ) { }
 
   canActivate(): boolean {
-    if (this.router.getCurrentNavigation()?.extras.state) {
+    if (!this.router.getCurrentNavigation()?.extras.state) {
       this.router.navigate(['enter']);
       return false;
     }

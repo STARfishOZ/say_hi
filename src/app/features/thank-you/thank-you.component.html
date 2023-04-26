@@ -15,7 +15,7 @@
     <span>Post code:</span>
     {{formData?.postCode}}
   </div>
-  <div>
+  <div *ngIf="formData?.favouriteMovie">
     <span>Favourite movie:</span>
     {{formData?.favouriteMovie}}
   </div>
