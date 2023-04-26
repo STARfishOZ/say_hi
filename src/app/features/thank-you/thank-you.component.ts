@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SharedService } from '../../services/shared.service';
-import { FormDataInterface } from '../../types/form-data.interface';
 import { NgIf } from '@angular/common';
+
+import { SharedService } from '../../services/shared.service';
+import { FormData } from '../../types/form.data';
 
 @Component({
   standalone: true,
@@ -14,11 +15,9 @@ import { NgIf } from '@angular/common';
     NgIf
   ]
 })
-export class ThankYouComponent implements OnInit {
-  formData: FormDataInterface | undefined;
-  constructor(private route: ActivatedRoute, private sharedService: SharedService) { }
-
-  ngOnInit(): void {
+export class ThankYouComponent {
+  formData: FormData | null;
+  constructor(private route: ActivatedRoute, private sharedService: SharedService) {
     this.formData = this.sharedService.formData.value;
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+
 import { SharedService } from '../services/shared.service';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class AuthGuard {
     private router: Router,
   ) { }
 
-  canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(): boolean {
     if (!this.sharedService.formData.value) {
       this.router.navigate(['enter']);
       return false;

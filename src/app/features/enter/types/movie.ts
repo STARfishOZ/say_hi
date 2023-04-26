@@ -1,4 +1,4 @@
-export interface MovieInterface {
+export interface Movie {
   title: string,
 }
 export interface MovieModel {

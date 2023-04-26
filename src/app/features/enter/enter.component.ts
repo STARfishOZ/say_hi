@@ -1,17 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { debounceTime, distinctUntilChanged, filter, Observable, Subject, switchMap, takeUntil, tap } from 'rxjs';
-import { Country } from './types/country.type';
-import { MatSelectModule } from '@angular/material/select';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MovieInterface } from './types/movie.interface';
-import { EnterService } from './services/enter.service';
-import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { debounceTime, distinctUntilChanged, filter, Observable, Subject, switchMap, takeUntil, tap } from 'rxjs';
+
+import { Country } from './types/country.type';
+import { Movie } from './types/movie';
+import { EnterService } from './services/enter.service';
 import { SharedService } from '../../services/shared.service';
-import { FormDataInterface } from '../../types/form-data.interface';
+import { FormData } from '../../types/form.data';
 
 @Component({
   standalone: true,
@@ -39,7 +41,7 @@ export class EnterComponent implements OnInit, OnDestroy {
     postCode: ['', [Validators.minLength(6), Validators.maxLength(10)]],
     favouriteMovie: ['', Validators.minLength(3)],
   }, {updateOn: 'submit'});
-  movies$: Observable<MovieInterface[]> | undefined;
+  movies$: Observable<Movie[]> | undefined;
 
   private readonly moveTypingDelay = 700;
   private destroy$ = new Subject<void>();
@@ -65,7 +67,7 @@ export class EnterComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.sharedService.formData.next(this.form.value as FormDataInterface);
+      this.sharedService.formData.next(this.form.value as FormData);
       this.router.navigate(['thankyou'])
     }
   }
