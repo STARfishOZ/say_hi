@@ -12,5 +12,5 @@ export const routes: Routes = [
     loadChildren: () => import('./features/thank-you/thank-you-routes').then((x) => x.ThankYouRoutes),
     canActivate: [() => inject(AuthGuard).canActivate()]
   },
-  { path: '', redirectTo: '/enter', pathMatch: 'full' }
+  { path: '', redirectTo: 'enter', pathMatch: 'full' }
 ];

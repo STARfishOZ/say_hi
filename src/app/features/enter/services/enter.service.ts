@@ -3,7 +3,9 @@ import { catchError, filter, map, Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { MovieDataResponse, MovieInterface } from '../types/movie.interface';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EnterService {
   private apiKey = 83513884;
   private url = 'https://www.omdbapi.com/'

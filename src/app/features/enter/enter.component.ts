@@ -29,7 +29,6 @@ import { FormDataInterface } from '../../types/form-data.interface';
     NgForOf,
     MatButtonModule
   ],
-  providers: [EnterService]
 })
 export class EnterComponent implements OnInit, OnDestroy {
 
@@ -75,7 +74,10 @@ export class EnterComponent implements OnInit, OnDestroy {
         debounceTime(this.moveTypingDelay),
         distinctUntilChanged(),
         filter(() => this.form.controls.favouriteMovie.valid),
-        switchMap((value) => this.enterService.getMovies(value as string)),
+        switchMap((value) => {
+          console.log('hello');
+          return this.enterService.getMovies(value as string)
+        }),
       )
   }
 
