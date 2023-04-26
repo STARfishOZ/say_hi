@@ -7,7 +7,6 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
 import { EnterService } from './services/enter.service';
-import { SharedService } from '../../services/shared.service';
 import { ThankYouComponent } from '../thank-you/thank-you.component';
 import { EnterComponent } from './enter.component';
 
@@ -15,7 +14,6 @@ describe('EnterComponent', () => {
   let component: EnterComponent;
   let fixture: ComponentFixture<EnterComponent>;
   let enterService: EnterService;
-  let sharedService: SharedService;
   let router: Router;
 
   beforeEach(async () => {
@@ -27,7 +25,6 @@ describe('EnterComponent', () => {
         provideAnimations(),
         provideRouter([ {path: 'thankyou', component: ThankYouComponent}]),
         EnterService,
-        SharedService,
       ]
     })
       .compileComponents();
@@ -35,14 +32,13 @@ describe('EnterComponent', () => {
 
   beforeEach(() => {
     enterService = TestBed.inject(EnterService);
-    sharedService = TestBed.inject(SharedService);
     fixture = TestBed.createComponent(EnterComponent);
     router = TestBed.get(Router)
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
@@ -72,13 +68,13 @@ describe('EnterComponent', () => {
   })
 
   describe('onSubmit', () => {
-    it('should call getMovies when favouriteMovie value changed', (() => {
-      spyOn(router, 'navigate');
+    it('should call navigateByUrl when form is valid', (() => {
+      spyOn(router, 'navigateByUrl');
       component.form.controls.country.setValue('Ireland');
       component.form.controls.name.setValue('Ireland');
       component.onSubmit();
 
-      expect(router.navigate).toHaveBeenCalledWith(['thankyou']);
+      expect(router.navigateByUrl).toHaveBeenCalledWith('thankyou', {state: { name: 'Ireland', userName: '', country: 'Ireland', postCode: '', favouriteMovie: '' }});
     }));
   })
 });

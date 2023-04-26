@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
-
-import { SharedService } from '../../services/shared.service';
 import { FormData } from '../../types/form.data';
 
 @Component({
@@ -17,7 +15,7 @@ import { FormData } from '../../types/form.data';
 })
 export class ThankYouComponent {
   formData: FormData | null;
-  constructor(private route: ActivatedRoute, private sharedService: SharedService) {
-    this.formData = this.sharedService.formData.value;
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.formData = this.router.getCurrentNavigation()?.extras.state as FormData;
   }
 }

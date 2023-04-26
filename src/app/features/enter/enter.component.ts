@@ -12,8 +12,6 @@ import { debounceTime, distinctUntilChanged, filter, Observable, Subject, switch
 import { Country } from './types/country.type';
 import { Movie } from './types/movie';
 import { EnterService } from './services/enter.service';
-import { SharedService } from '../../services/shared.service';
-import { FormData } from '../../types/form.data';
 
 @Component({
   standalone: true,
@@ -48,8 +46,7 @@ export class EnterComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder,
               private enterService: EnterService,
-              private router: Router,
-              private sharedService: SharedService,) {
+              private router: Router,) {
   }
 
   ngOnInit(): void {
@@ -67,8 +64,7 @@ export class EnterComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.sharedService.formData.next(this.form.value as FormData);
-      this.router.navigate(['thankyou'])
+      this.router.navigateByUrl('thankyou', {state: this.form.value});
     }
   }
 
