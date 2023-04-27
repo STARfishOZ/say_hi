@@ -5,15 +5,19 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
 
-import { EnterService } from './services/enter.service';
-import { ThankYouComponent } from '../thank-you/thank-you.component';
-import { EnterComponent } from './enter.component';
+import { FormFacade } from '@app/features/enter/+state/form.facade';
+import { EnterComponent } from '@app/features/enter/enter.component';
+import { EnterService } from '@app/features/enter/services/enter.service';
+import { ThankYouComponent } from '@app/features/thank-you/thank-you.component';
 
 describe('EnterComponent', () => {
   let component: EnterComponent;
   let fixture: ComponentFixture<EnterComponent>;
   let enterService: EnterService;
+  let formFacade: FormFacade;
   let router: Router;
 
   beforeEach(async () => {
@@ -23,8 +27,11 @@ describe('EnterComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideAnimations(),
+        provideStore(),
+        provideEffects(),
         provideRouter([ {path: 'thankyou', component: ThankYouComponent}]),
         EnterService,
+        FormFacade,
       ]
     })
       .compileComponents();
@@ -33,7 +40,7 @@ describe('EnterComponent', () => {
   beforeEach(() => {
     enterService = TestBed.inject(EnterService);
     fixture = TestBed.createComponent(EnterComponent);
-    router = TestBed.get(Router)
+    formFacade = TestBed.inject(FormFacade);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -68,13 +75,13 @@ describe('EnterComponent', () => {
   })
 
   describe('onSubmit', () => {
-    it('should call navigateByUrl when form is valid', (() => {
-      spyOn(router, 'navigateByUrl');
+    it('should call navigate when form is valid', (() => {
+      spyOn(formFacade, 'setForm');
       component.form.controls.country.setValue('Ireland');
       component.form.controls.name.setValue('Ireland');
       component.onSubmit();
 
-      expect(router.navigateByUrl).toHaveBeenCalledWith('thankyou', {state: { name: 'Ireland', userName: '', country: 'Ireland', postCode: '', favouriteMovie: '' }});
+      expect(formFacade.setForm).toHaveBeenCalledWith({ name: 'Ireland', userName: '', country: 'Ireland', postCode: '', favouriteMovie: '' });
     }));
   })
 });

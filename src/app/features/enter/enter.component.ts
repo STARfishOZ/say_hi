@@ -9,9 +9,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { debounceTime, distinctUntilChanged, filter, Observable, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
-import { Country } from './types/country.type';
-import { Movie } from './types/movie';
-import { EnterService } from './services/enter.service';
+import { EnterService } from '@app/features/enter/services/enter.service';
+import { Country } from '@app/features/enter/types/country.type';
+import { Movie } from '@app/features/enter/types/movie';
+import { FormFacade } from '@app/features/enter/+state/form.facade';
+import { FormData } from '@app/types/form.data';
 
 @Component({
   standalone: true,
@@ -27,8 +29,8 @@ import { EnterService } from './services/enter.service';
     MatAutocompleteModule,
     AsyncPipe,
     NgForOf,
-    MatButtonModule
-  ],
+    MatButtonModule,
+  ]
 })
 export class EnterComponent implements OnInit, OnDestroy {
 
@@ -46,7 +48,8 @@ export class EnterComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder,
               private enterService: EnterService,
-              private router: Router,) {
+              private router: Router,
+              private formFacade: FormFacade) {
   }
 
   ngOnInit(): void {
@@ -64,7 +67,7 @@ export class EnterComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.router.navigateByUrl('thankyou', {state: this.form.value});
+      this.formFacade.setForm(this.form.value as FormData);
     }
   }
 
