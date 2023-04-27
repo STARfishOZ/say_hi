@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { inject } from '@angular/core';
-import { AuthGuard } from './guards/authorization.guard';
+
+import { AuthGuard } from '@app/guards/authorization.guard';
 
 export const routes: Routes = [
   {
     path: 'enter',
-    loadChildren: () => import('./features/enter/enter-routes').then((x) => x.EnterFeatureRoutes)
+    loadChildren: () => import('./features/enter/enter-routes').then((x) => x.EnterFeatureRoutes),
   },
   {
     path: 'thankyou',

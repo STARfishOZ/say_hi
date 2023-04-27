@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgIf } from '@angular/common';
-import { FormData } from '../../types/form.data';
+import { AsyncPipe, NgIf } from '@angular/common';
+
+import { Observable } from 'rxjs';
+
+import { FormData } from '@app/types/form.data'
+import { FormFacade } from '@app/features/enter/+state/form.facade';
 
 @Component({
   standalone: true,
@@ -10,12 +13,15 @@ import { FormData } from '../../types/form.data';
   styleUrls: [ 'thank-you.component.less' ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf
+    NgIf,
+    AsyncPipe,
   ]
 })
 export class ThankYouComponent {
-  formData: FormData | null;
-  constructor(private route: ActivatedRoute, private router: Router) {
-    this.formData = this.router.getCurrentNavigation()?.extras.state as FormData;
+  constructor(private formFacade: FormFacade) {
+  }
+
+  getFormData(): Observable<FormData | null> {
+    return this.formFacade.formData$;
   }
 }

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { catchError, filter, map, Observable, of } from 'rxjs';
-
-import { Movie, MovieDataResponse } from '../types/movie';
+import { Movie, MovieDataResponse } from '@app/features/enter/types/movie';
 import { environment } from '../../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
