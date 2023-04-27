@@ -1,7 +1,6 @@
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { provideRouter, Router } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
@@ -18,14 +17,11 @@ describe('EnterComponent', () => {
   let fixture: ComponentFixture<EnterComponent>;
   let enterService: EnterService;
   let formFacade: FormFacade;
-  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EnterComponent],
       providers: [
         provideHttpClient(),
-        provideHttpClientTesting(),
         provideAnimations(),
         provideStore(),
         provideEffects(),
@@ -39,8 +35,8 @@ describe('EnterComponent', () => {
 
   beforeEach(() => {
     enterService = TestBed.inject(EnterService);
-    fixture = TestBed.createComponent(EnterComponent);
     formFacade = TestBed.inject(FormFacade);
+    fixture = TestBed.createComponent(EnterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
